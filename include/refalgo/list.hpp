@@ -20,7 +20,7 @@ namespace refalgo {
     public:
         LinkedListIterator() : current(nullptr) {};
         LinkedListIterator(list::Node<T>* ptr) : current(ptr) {};
-        T operator*() { return current->info; };
+        T& operator*() { return current->info; };
         LinkedListIterator<T> operator++() {
             current = current->link;
             return *this;
@@ -32,7 +32,7 @@ namespace refalgo {
     template <typename T>
     struct LinkedList {
     public:
-        const LinkedList<T>& operator=(const LinkedList<T>& other_list) {
+        LinkedList<T>& operator=(const LinkedList<T>& other_list) {
             if (this != &other_list) {
                 copy_list(other_list);
             }
@@ -114,6 +114,95 @@ namespace refalgo {
                     last = new_node;
 
                     current = current->link;
+                }
+            }
+        };
+    };
+
+    template <typename T>
+    struct UnorderedLinkedList : public LinkedList<T> {
+        bool search(const T& search_item) const override {
+            list::Node<T>* current;
+            bool found = false;
+            current = this->first;
+            while (current != nullptr && !found) {
+                if (current->info == search_item) {
+                    return true;
+                }
+                current = current->link;
+            }
+            return false;
+        };
+        void insert_first(const T& new_item) {
+            list::Node<T>* new_node = new list::Node<T>;
+            new_node->info = new_item;
+            new_node->link = this->first;
+            this->first = new_node;
+
+            this->count++;
+
+            if (this->last == nullptr) {
+                this->last = new_node;
+            }
+        };
+        void insert_last(const T& new_item) {
+            list::Node<T>* new_node = new list::Node<T>;
+            new_node->info = new_item;
+            new_node->link = nullptr;
+
+            if (this->first == nullptr) {
+                this->first = new_node;
+                this->last = new_node;
+            }
+            else {
+                this->last->link = new_node;
+                this->last = new_node;
+            }
+            this->count++;
+        };
+        void delete_node(const T& delete_item) {
+            list::Node<T>*current, *trail_current;
+            bool found;
+
+            if (this->first == nullptr) {
+                std::println("Cannot delete from an empty list.");
+            }
+            else {
+                if (this->first->info == delete_item) {
+                    current = this->first;
+                    this->first = this->first->link;
+                    this->count--;
+                    if (this->first == nullptr) {
+                        this->last = nullptr;
+                    }
+                    delete current;
+                }
+                else {
+                    found = false;
+                    trail_current = this->first;
+                    current = this->first->link;
+
+                    while (current != nullptr && !found) {
+                        if (current->info != delete_item) {
+                            trail_current = current;
+                            current = current->link;
+                        }
+                        else {
+                            found = true;
+                        }
+                        if (found) {
+                            trail_current->link = current->link;
+                            this->count--;
+
+                            if (this->last == current) {
+                                this->last = trail_current;
+                            }
+                            delete current;
+                        }
+                        else {
+                            std::println("The item to be deleted is not in the list.");
+                        }
+                    }
                 }
             }
         };
