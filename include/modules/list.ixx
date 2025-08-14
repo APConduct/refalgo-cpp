@@ -11,6 +11,23 @@ export namespace refalgo {
         struct Node {
             T info;
             Node<T>* link;
+
+        public:
+            const Node<T>& operator=(const Node<T>& other) {
+                info = other.info;
+                link = other.link;
+                return *this;
+            };
+
+            void set_info(const T& new_info) { info = new_info; };
+            void set_link(Node<T>* new_link) { link = new_link; };
+            T& get_info() { return info; };
+            const T& get_info() const { return info; };
+            Node<T>* get_link() { return link; };
+            const Node<T>* get_link() const { return link; };
+            Node<T>() : info(), link(nullptr){};
+            Node(const T& elem, Node<T>* ptr = nullptr) : info(elem), link(ptr) {};
+            Node(const Node<T>& other) : info(other.info), link(other.link) {};
         };
     } // namespace list
 
@@ -87,6 +104,16 @@ export namespace refalgo {
         LinkedList() : first(nullptr), last(nullptr), count(0) {};
         LinkedList(const LinkedList<T>& other_list) : first(nullptr) { copy_list(other_list); };
         ~LinkedList() { destroy_list(); };
+
+        void rotate() {
+            if (first == nullptr || first == last) {
+                return;
+            }
+            last->link = first;
+            first = first->link;
+            last->link->link = nullptr;
+            last = last->link;
+        }
 
     protected:
         int count;
@@ -500,5 +527,22 @@ export namespace refalgo {
 
     private:
         void copy_list(const DoublyLinkedList& other);
+    };
+
+
+    struct IntLinkedList : public UnorderedLinkedList<int> {
+    public:
+        void split_even_odd_list(IntLinkedList& even_list, IntLinkedList& odd_list) {
+            refalgo::list::Node<int>* current = this->first;
+            while (current != nullptr) {
+                if (current->info % 2 == 0) {
+                    even_list.insert_last(current->info);
+                }
+                else {
+                    odd_list.insert_last(current->info);
+                }
+                current = current->link;
+            }
+        }
     };
 } // namespace refalgo
