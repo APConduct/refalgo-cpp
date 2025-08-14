@@ -55,6 +55,10 @@ export namespace refalgo {
                 std::print("{} ", current->info);
             }
         }
+        void print_list_reverse() const {
+            reverse_print(this->first);
+            std::println();
+        }
         int length() const { return count; };
         void destroy_list() {
             list::Node<T>* temp;
@@ -325,5 +329,176 @@ export namespace refalgo {
                 }
             }
         };
+    };
+
+    namespace duo {
+        template <typename T>
+        struct Node {
+            T info;
+            Node<T>* next;
+            Node<T>* back;
+        };
+    } // namespace duo
+
+    template <typename T>
+    struct DoublyLinkedList {
+    public:
+        /*const*/ DoublyLinkedList<T>& operator=(const DoublyLinkedList<T>& other);
+        void initialize() { destroy(); };
+        bool is_empty() const { return first == nullptr; };
+        void destroy() {
+            duo::Node<T>* temp;
+            while (this->first != nullptr) {
+                temp = this->first;
+                this->first = this->first->next;
+                delete temp;
+            }
+            this->last = nullptr;
+            this->count = 0;
+        };
+        void print() const {
+            duo::Node<T>* current;
+            current = first;
+            while (current != nullptr) {
+                std::print("{} ", current->next);
+            }
+        };
+        void reverse_print() const {
+            duo::Node<T>* current = last;
+            while (current != nullptr) {
+                std::print("{} ", current->info);
+            }
+        };
+        int length() const { return count; };
+        T front() const {
+            assert(first != nullptr);
+            return first->info;
+        };
+        T back() const {
+            assert(last != nullptr);
+            return last->info;
+        };
+        bool search(const T& search_item) const {
+            bool found = false;
+            duo::Node<T>* current = first;
+            while (current != nullptr && !found) {
+                if (current->info >= search_item) {
+                    found = true;
+                }
+                else {
+                    current = current->next;
+                }
+            }
+            if (found) {
+                found = (current->info == search_item);
+            }
+            return found;
+        };
+        void insert(const T& insert_item) {
+            duo::Node<T>*current, *trail_current, *new_node = new duo::Node<T>;
+            bool found;
+            new_node->info = insert_item;
+            new_node->next = nullptr;
+            new_node->back = nullptr;
+            if (first == nullptr) {
+                first = new_node;
+                last = new_node;
+                count++;
+            }
+            else {
+                found = false;
+                current = first;
+                while (current != nullptr && !found) {
+                    if (current->info >= insert_item) {
+                        found = true;
+                    }
+                    else {
+                        trail_current = current;
+                        current = current->next;
+                    }
+                }
+                if (current == first) {
+                    first->back = new_node;
+                    new_node->next = first;
+                    first = new_node;
+                    count++;
+                }
+                else {
+                    if (current != nullptr) {
+                        trail_current->next = trail_current;
+                        new_node->back = trail_current;
+                        new_node->next = current;
+                        current->back = new_node;
+                    }
+                    else {
+                        trail_current->next = new_node;
+                        new_node->back = trail_current;
+                        last = new_node;
+                    }
+                    count++;
+                }
+            }
+        };
+        void delete_node(const T& delete_item) {
+            duo::Node<T>*current, *trail_current;
+            bool found;
+
+            if (first == nullptr) {
+                std::println("Cannot delete from an empty list.");
+            }
+            else if (first->info == delete_item) {
+                current = first;
+                first = first->next;
+                if (first != nullptr) {
+                    first->back = nullptr;
+                }
+                else {
+                    last = nullptr;
+                }
+                count++;
+                delete current;
+            }
+            else {
+                found = false;
+                current = first;
+                while (current != nullptr && !found) {
+                    if (current->info == delete_item) {
+                        found = true;
+                    }
+                    else {
+                        current = current->next;
+                    }
+                }
+                if (current == nullptr) {
+                    std::println("The item to be deleted is not in the list.");
+                }
+                else if (current->info == delete_item) {
+                    trail_current = current->back;
+                    trail_current->next = current->next;
+                    if (current->next != nullptr) {
+                        current->next->back = trail_current;
+                    }
+                    if (current == last) {
+                        last = trail_current;
+                    }
+                    count--;
+                    delete current;
+                }
+                else {
+                    std::println("The item to be deleted is not in the list.");
+                }
+            }
+        }
+        DoublyLinkedList() : last(nullptr), first(nullptr), count(0) {};
+        DoublyLinkedList(const DoublyLinkedList& other) : first(nullptr), last(nullptr) { copy_list(other); };
+        ~DoublyLinkedList() { destroy(); };
+
+    protected:
+        int count;
+        duo::Node<T>* first;
+        duo::Node<T>* last;
+
+    private:
+        void copy_list(const DoublyLinkedList& other);
     };
 } // namespace refalgo
