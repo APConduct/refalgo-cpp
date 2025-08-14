@@ -14,20 +14,18 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_library(refalgo STATIC
-    src/binary_search.cpp
-    include/refalgo.hpp
-    include/refalgo/list.hpp
-    src/dec_to_bin.cpp
-    src/bubble_sort.cpp
-    src/insertion_sort.cpp
-)
+add_library(refalgo STATIC)
 
 target_sources(refalgo
     PUBLIC
     FILE_SET CXX_MODULES
     FILES
     include/modules/refalgo.ixx
+    include/modules/list.ixx
+    include/modules/bubble_sort.ixx
+    include/modules/insertion_sort.ixx
+    include/modules/binary_search.ixx
+    include/modules/dec_to_bin.ixx
 )
 
 target_include_directories(refalgo PUBLIC include)

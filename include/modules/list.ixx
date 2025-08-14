@@ -1,9 +1,11 @@
-#pragma once
-
+module;
 #include <cassert>
 #include <cstddef>
 #include <print>
-namespace refalgo {
+export module refalgo.list;
+
+
+export namespace refalgo {
     namespace list {
         template <typename T>
         struct Node {
@@ -47,6 +49,12 @@ namespace refalgo {
                 current = current->link;
             };
         };
+        void reverse_print(list::Node<T>* current) const {
+            if (current != nullptr) {
+                reverse_print(current->link);
+                std::print("{} ", current->info);
+            }
+        }
         int length() const { return count; };
         void destroy_list() {
             list::Node<T>* temp;
@@ -133,7 +141,7 @@ namespace refalgo {
             }
             return false;
         };
-        void insert_first(const T& new_item) {
+        void insert_first(const T& new_item) override {
             list::Node<T>* new_node = new list::Node<T>;
             new_node->info = new_item;
             new_node->link = this->first;
@@ -145,7 +153,7 @@ namespace refalgo {
                 this->last = new_node;
             }
         };
-        void insert_last(const T& new_item) {
+        void insert_last(const T& new_item) override {
             list::Node<T>* new_node = new list::Node<T>;
             new_node->info = new_item;
             new_node->link = nullptr;
@@ -268,8 +276,8 @@ namespace refalgo {
                 }
             }
         };
-        void insert_first(const T& new_item) { insert(new_item); };
-        void insert_last(const T& new_item) { insert(new_item); };
+        void insert_first(const T& new_item) override { insert(new_item); };
+        void insert_last(const T& new_item) override { insert(new_item); };
         void delete_node(const T& delete_item) {
             list::Node<T>*current, *trail_current = nullptr;
             bool found;

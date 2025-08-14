@@ -1,6 +1,11 @@
 module;
-#include "refalgo.hpp"
 export module refalgo;
+
+export import refalgo.bubble_sort;
+export import refalgo.insertion_sort;
+export import refalgo.list;
+
+
 export namespace refalgo {
     template <typename T>
     using OrderedList = refalgo::OrderedLinkedList<T>;

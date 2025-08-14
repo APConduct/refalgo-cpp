@@ -1,5 +1,5 @@
 #include <iostream>
-#include "refalgo.hpp"
+import refalgo;
 
 int main() {
     using namespace refalgo;
