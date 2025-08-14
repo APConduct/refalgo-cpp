@@ -23,6 +23,13 @@ add_library(refalgo STATIC
     src/insertion_sort.cpp
 )
 
+target_sources(refalgo
+    PUBLIC
+    FILE_SET CXX_MODULES
+    FILES
+    include/modules/refalgo.ixx
+)
+
 target_include_directories(refalgo PUBLIC include)
 
 add_subdirectory(examples)
