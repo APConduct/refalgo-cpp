@@ -40,5 +40,10 @@
 # debug information files
 *.dwo
 
-cmake-build-debug/
+# Build directories
+cmake-build-*/
 .cache
+compile_commands.json
+
+# This keeps appearing for some reason
+.ropeproject

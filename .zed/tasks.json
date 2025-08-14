@@ -1,0 +1,12 @@
+[
+  { "label": "Build debug", "command": "./debug.sh" },
+  // { "label": "Build release", "command": "./release.sh" },
+  {
+    "label": "run list example",
+    "command": "cmake-build-debug/examples/list_examples"
+  },
+  {
+    "label": "build and run list example",
+    "command": "./debug.sh && cmake-build-debug/examples/list_examples"
+  }
+]

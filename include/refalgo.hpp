@@ -1,5 +1,6 @@
 
 #pragma once
+#include "refalgo/list.hpp"
 namespace refalgo {
     int binary_search(const int list[], int list_length, int search_item);
     int dec_to_bin(int num, int base);

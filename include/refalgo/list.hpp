@@ -207,4 +207,115 @@ namespace refalgo {
             }
         };
     };
+
+    template <typename T>
+    struct OrderedLinkedList : public LinkedList<T> {
+    public:
+        bool search(const T& search_item) const override {
+            bool found = false;
+            list::Node<T>* current = this->first;
+
+            while (current != nullptr && !found) {
+                if (current->info >= search_item) {
+                    found = true;
+                }
+                else {
+                    current = current->link;
+                }
+            }
+            if (found) {
+                found = (current->info == search_item);
+            }
+            return found;
+        };
+        void insert(const T& new_item) {
+            list::Node<T>*current, *trail_current = nullptr, *new_node = new list::Node<T>;
+            bool found;
+            new_node->info = new_item;
+            new_node->link = nullptr;
+
+            if (this->first == nullptr) {
+                this->first = new_node;
+                this->last = new_node;
+                this->count++;
+            }
+            else {
+                current = this->first;
+                found = false;
+
+                while (current != nullptr && !found) {
+                    if (current->info >= new_item) {
+                        found = true;
+                    }
+                    else {
+                        trail_current = current;
+                        current = current->link;
+                    }
+                }
+                if (current == this->first) {
+                    new_node->link = this->first;
+                    this->first = new_node;
+                    this->count++;
+                }
+                else {
+                    trail_current->link = new_node;
+                    new_node->link = current;
+
+                    if (current == nullptr) {
+                        this->last = new_node;
+                    }
+                    this->count++;
+                }
+            }
+        };
+        void insert_first(const T& new_item) { insert(new_item); };
+        void insert_last(const T& new_item) { insert(new_item); };
+        void delete_node(const T& delete_item) {
+            list::Node<T>*current, *trail_current = nullptr;
+            bool found;
+            if (this->first == nullptr) {
+                std::println("Cannot delete from an empty list");
+            }
+            else {
+                current = this->first;
+                found = false;
+
+                while (current != nullptr && !found) {
+                    if (current->info >= delete_item) {
+                        found = true;
+                    }
+                    else {
+                        trail_current = current;
+                        current = current->link;
+                    }
+                }
+
+                if (current == nullptr) {
+                    std::println("The item to be deleted is not in the list");
+                }
+                else {
+                    if (current->info == delete_item) {
+                        if (this->first == current) {
+                            this->first = this->first->link;
+                            if (this->first == nullptr) {
+                                this->last = nullptr;
+                            }
+                            delete current;
+                        }
+                        else {
+                            trail_current->link = current->link;
+                            if (current == this->last) {
+                                this->last = trail_current;
+                            }
+                            delete current;
+                        }
+                        this->count--;
+                    }
+                    else {
+                        std::println("The item to be deleted is not in the list.");
+                    }
+                }
+            }
+        };
+    };
 } // namespace refalgo

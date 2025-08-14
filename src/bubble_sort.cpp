@@ -1,4 +1,4 @@
-#include "refalgo/refalgo.hpp"
+#include "refalgo.hpp"
 
 void refalgo::bubble_sort(int list[], int length) {
     int temp;

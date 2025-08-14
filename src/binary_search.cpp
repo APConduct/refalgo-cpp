@@ -1,4 +1,4 @@
-#include "refalgo/refalgo.hpp"
+#include "refalgo.hpp"
 
 int refalgo::binary_search(const int list[], int list_length, int search_item) {
     int first = 0;

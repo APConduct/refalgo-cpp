@@ -1,4 +1,4 @@
-#include "refalgo/refalgo.hpp"
+#include "refalgo.hpp"
 
 int refalgo::dec_to_bin(int num, int base) {
     if (num == 0) {

@@ -16,10 +16,13 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_library(refalgo STATIC
     src/binary_search.cpp
-    include/refalgo/refalgo.hpp
+    include/refalgo.hpp
+    include/refalgo/list.hpp
     src/dec_to_bin.cpp
     src/bubble_sort.cpp
     src/insertion_sort.cpp
 )
 
 target_include_directories(refalgo PUBLIC include)
+
+add_subdirectory(examples)

@@ -1,4 +1,4 @@
-#include "refalgo/refalgo.hpp"
+#include "refalgo.hpp"
 
 void refalgo::insertion_sort(int* list, int list_length) {
     int first_out_of_order, location;
