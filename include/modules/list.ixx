@@ -168,7 +168,7 @@ export namespace refalgo {
             }
             this->count++;
         };
-        void delete_node(const T& delete_item) {
+        void delete_node(const T& delete_item) override {
             list::Node<T>*current, *trail_current;
             bool found;
 
@@ -278,7 +278,7 @@ export namespace refalgo {
         };
         void insert_first(const T& new_item) override { insert(new_item); };
         void insert_last(const T& new_item) override { insert(new_item); };
-        void delete_node(const T& delete_item) {
+        void delete_node(const T& delete_item) override {
             list::Node<T>*current, *trail_current = nullptr;
             bool found;
             if (this->first == nullptr) {
