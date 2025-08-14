@@ -41,8 +41,7 @@ namespace refalgo {
         void initialize_list() { destroy_list(); };
         bool is_empty() const { return first == nullptr; };
         void print() const {
-            list::Node<T>* current;
-            current = first;
+            list::Node<T>* current = first;
             while (current != nullptr) {
                 std::print("{} ", current->info);
                 current = current->link;
@@ -71,14 +70,8 @@ namespace refalgo {
         virtual void insert_first(const T& new_item) = 0;
         virtual void insert_last(const T& new_item) = 0;
         virtual void delete_node(const T& delete_item) = 0;
-        LinkedListIterator<T> begin() {
-            LinkedListIterator<T> temp(first);
-            return temp;
-        };
-        LinkedListIterator<T> end() {
-            LinkedListIterator<T> temp(nullptr);
-            return temp;
-        };
+        LinkedListIterator<T> begin() const { return LinkedListIterator<T>(first); };
+        LinkedListIterator<T> end() const { return LinkedListIterator<T>(nullptr); };
         LinkedList() : first(nullptr), last(nullptr), count(0) {};
         LinkedList(const LinkedList<T>& other_list) : first(nullptr) { copy_list(other_list); };
         ~LinkedList() { destroy_list(); };
