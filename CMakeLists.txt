@@ -27,6 +27,7 @@ target_sources(refalgo
     include/modules/binary_search.ixx
     include/modules/dec_to_bin.ixx
     include/modules/stack.ixx
+    include/modules/queue.ixx
 )
 
 target_include_directories(refalgo PUBLIC include)
