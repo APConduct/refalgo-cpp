@@ -72,7 +72,7 @@ int main() {
     std::cout << "Copied stack top (unchanged): " << copied_stack.top() << "\n";
 
     std::cout << "\n=== UnorderedLinkedList-based Stack Example ===\n";
-    ul::LinkedStack<int> ul_stack;
+    ul::linked::Stack<int> ul_stack;
 
     // Push some elements
     ul_stack.push(10);

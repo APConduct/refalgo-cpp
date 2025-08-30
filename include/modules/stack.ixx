@@ -179,9 +179,9 @@ protected:
 };
 } // namespace linked
 
-namespace ul {
+namespace ul::linked {
 template <typename T>
-struct LinkedStack : public refalgo::UnorderedLinkedList<T> {
+struct Stack : public refalgo::UnorderedLinkedList<T> {
     void initialize() { UnorderedLinkedList<T>::initialize_list(); };
     bool is_empty() const { return UnorderedLinkedList<T>::is_empty(); };
     bool is_full() const { return false; };
@@ -196,6 +196,6 @@ struct LinkedStack : public refalgo::UnorderedLinkedList<T> {
         }
     };
 };
-} // namespace ul
+} // namespace ul::linked
 
 } // namespace refalgo
