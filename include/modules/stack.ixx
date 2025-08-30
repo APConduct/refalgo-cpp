@@ -99,9 +99,14 @@ struct Node {
 template <typename T>
 struct LinkedStack : StackSpec<T> {
 public:
-    const LinkedStack<T>& operator=(const LinkedStack<T>& other);
+    LinkedStack<T>& operator=(const LinkedStack<T>& other) {
+        if (this != &other) {
+            copy(other);
+        }
+        return *this;
+    };
     bool is_empty() const override { return stack_top == nullptr; };
-    bool in_full() const override { return false; };
+    bool is_full() const override { return false; };
     void initialize() override {
         stack::Node<T>* temp;
         while (stack_top != nullptr) {
@@ -131,15 +136,41 @@ public:
             std::println("Cannot remove from an empty stack.");
         }
     };
-    LinkedStack<T>(const LinkedStack<T>& other);
+    LinkedStack<T>(const LinkedStack<T>& other) : stack_top(nullptr) { copy(other); };
     LinkedStack<T>() : stack_top(nullptr){};
-    ~LinkedStack();
+    ~LinkedStack() { initialize(); };
 
 protected:
     stack::Node<T>* stack_top;
-    void copy(const LinkedStack<T>& other)
-        //{}
-        ;
+    void copy(const LinkedStack<T>& other) {
+        stack::Node<T>*new_node, *current, *last;
+        if (stack_top != nullptr) {
+            initialize();
+        }
+        if (other.stack_top == nullptr) {
+            stack_top = nullptr;
+        }
+        else {
+            current = other.stack_top;
+
+            stack_top = new stack::Node<T>;
+            stack_top->info = current->info;
+            stack_top->link = nullptr;
+
+            last = stack_top;
+            current = current->link;
+
+            while (current != nullptr) {
+                new_node = new stack::Node<T>;
+
+                new_node->info = current->info;
+                new_node->link = nullptr;
+                last->link = new_node;
+                last = new_node;
+                current = current->link;
+            }
+        }
+    };
 };
 
 } // namespace refalgo
