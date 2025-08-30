@@ -31,7 +31,7 @@ int main() {
     }
 
     std::cout << "\n=== Linked Stack Example ===\n";
-    LinkedStack<std::string> linked_stack;
+    linked::Stack<std::string> linked_stack;
 
     // Push some string elements
     linked_stack.push("First");
@@ -70,6 +70,4 @@ int main() {
     std::cout << "After popping from original:\n";
     std::cout << "Original stack top: " << original_stack.top() << "\n";
     std::cout << "Copied stack top (unchanged): " << copied_stack.top() << "\n";
-
-    return 0;
 }

@@ -4,6 +4,9 @@ module;
 
 export module refalgo.stack;
 
+import refalgo.list;
+
+
 export namespace refalgo {
 
 // Abstract Stack ADT
@@ -96,10 +99,12 @@ struct Node {
 };
 } // namespace stack
 
+namespace linked {
 template <typename T>
-struct LinkedStack : public StackSpec<T> {
+
+struct Stack : public StackSpec<T> {
 public:
-    LinkedStack<T>& operator=(const LinkedStack<T>& other) {
+    Stack<T>& operator=(const Stack<T>& other) {
         if (this != &other) {
             copy(other);
         }
@@ -136,13 +141,13 @@ public:
             std::println("Cannot remove from an empty stack.");
         }
     };
-    LinkedStack<T>(const LinkedStack<T>& other) : stack_top(nullptr) { copy(other); };
-    LinkedStack<T>() : stack_top(nullptr){};
-    ~LinkedStack() { initialize(); };
+    Stack<T>(const Stack<T>& other) : stack_top(nullptr) { copy(other); };
+    Stack<T>() : stack_top(nullptr){};
+    ~Stack() { initialize(); };
 
 protected:
     stack::Node<T>* stack_top;
-    void copy(const LinkedStack<T>& other) {
+    void copy(const Stack<T>& other) {
         stack::Node<T>*new_node, *current, *last;
         if (stack_top != nullptr) {
             initialize();
@@ -172,5 +177,11 @@ protected:
         }
     };
 };
+} // namespace linked
+
+namespace ul {
+template <typename T>
+struct LinkedStack : public refalgo::UnorderedLinkedList<T> {};
+} // namespace ul
 
 } // namespace refalgo
