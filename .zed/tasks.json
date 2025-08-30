@@ -8,5 +8,9 @@
   {
     "label": "build and run list example",
     "command": "./debug.sh && cmake-build-debug/examples/list_examples"
+  },
+  {
+    "label": "build and run stack example",
+    "command": "./debug.sh && cmake-build-debug/examples/stack_examples"
   }
 ]

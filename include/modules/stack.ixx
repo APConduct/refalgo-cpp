@@ -97,7 +97,7 @@ struct Node {
 } // namespace stack
 
 template <typename T>
-struct LinkedStack : StackSpec<T> {
+struct LinkedStack : public StackSpec<T> {
 public:
     LinkedStack<T>& operator=(const LinkedStack<T>& other) {
         if (this != &other) {
