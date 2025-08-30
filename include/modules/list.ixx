@@ -56,7 +56,7 @@ public:
         }
         return *this;
     };
-    void initialize_list() { destroy_list(); };
+    void initialize() { destroy_list(); };
     bool is_empty() const { return first == nullptr; };
     void print() const {
         list::Node<T>* current = first;

@@ -70,4 +70,36 @@ int main() {
     std::cout << "After popping from original:\n";
     std::cout << "Original stack top: " << original_stack.top() << "\n";
     std::cout << "Copied stack top (unchanged): " << copied_stack.top() << "\n";
+
+    std::cout << "\n=== UnorderedLinkedList-based Stack Example ===\n";
+    ul::LinkedStack<int> ul_stack;
+
+    // Push some elements
+    ul_stack.push(10);
+    ul_stack.push(20);
+    ul_stack.push(30);
+
+    std::cout << "UL Stack top: " << ul_stack.top() << "\n";
+    std::cout << "UL Stack is empty: " << (ul_stack.is_empty() ? "Yes" : "No") << "\n";
+    std::cout << "UL Stack is full: " << (ul_stack.is_full() ? "Yes" : "No") << "\n";
+    std::cout << "UL Stack length: " << ul_stack.length() << "\n"; // Inherited from UnorderedLinkedList
+
+    // Pop all elements
+    std::cout << "\nPopping all elements from UL Stack:\n";
+    while (!ul_stack.is_empty()) {
+        std::cout << "Popping: " << ul_stack.top() << "\n";
+        ul_stack.pop();
+    }
+
+    // Demonstrate inherited list functionality
+    std::cout << "\nDemonstrating inherited list functionality:\n";
+    ul_stack.push(100);
+    ul_stack.push(200);
+    ul_stack.push(300);
+
+    std::cout << "Stack contents (using inherited print method): ";
+    ul_stack.print();
+    std::cout << "\n";
+
+    std::cout << "Search for 200 in stack: " << (ul_stack.search(200) ? "Found" : "Not found") << "\n";
 }

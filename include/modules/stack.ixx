@@ -181,7 +181,21 @@ protected:
 
 namespace ul {
 template <typename T>
-struct LinkedStack : public refalgo::UnorderedLinkedList<T> {};
+struct LinkedStack : public refalgo::UnorderedLinkedList<T> {
+    void initialize() { UnorderedLinkedList<T>::initialize_list(); };
+    bool is_empty() const { return UnorderedLinkedList<T>::is_empty(); };
+    bool is_full() const { return false; };
+    void push(const T& new_item) { UnorderedLinkedList<T>::insert_first(new_item); };
+    T top() const { return UnorderedLinkedList<T>::front(); };
+    void pop() {
+        if (!is_empty()) {
+            this->delete_node(this->front());
+        }
+        else {
+            std::println("Cannot remove from an empty stack.");
+        }
+    };
+};
 } // namespace ul
 
 } // namespace refalgo
