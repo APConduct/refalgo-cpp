@@ -6,85 +6,140 @@ export module refalgo.stack;
 
 export namespace refalgo {
 
-    // Abstract Stack ADT
-    template <typename T>
-    struct StackSpec {
-        virtual void initialize() = 0;
-        virtual bool is_empty() const = 0;
-        virtual bool is_full() const = 0;
-        virtual void push(const T& new_item) = 0;
-        virtual T top() const = 0;
-        virtual void pop() = 0;
-        virtual ~StackSpec() = default;
-    };
+// Abstract Stack ADT
+template <typename T>
+struct StackSpec {
+    virtual void initialize() = 0;
+    virtual bool is_empty() const = 0;
+    virtual bool is_full() const = 0;
+    virtual void push(const T& new_item) = 0;
+    virtual T top() const = 0;
+    virtual void pop() = 0;
+    virtual ~StackSpec() = default;
+};
 
-    template <typename T>
-    struct Stack : public StackSpec<T> {
-    public:
-        const Stack<T>& operator=(const Stack<T>& other) {
-            if (this != &other) {
-                copy(other);
-            }
-            return *this;
-        };
-        void initialize() override { stack_top = 0; };
-        bool is_empty() const override { return stack_top == 0; };
-        bool is_full() const override { return stack_top == max_stack_size; };
-        void push(const T& new_item) override {
-            if (!is_full()) {
-                list[stack_top] = new_item;
-                stack_top++;
-            }
-            else {
-                std::println("Cannot add to a full stack.");
-            }
-        };
-        T top() const override {
-            assert(stack_top != 0);
-            return list[stack_top - 1];
-        };
-        void pop() override {
-            if (!is_empty()) {
-                stack_top--;
-            }
-            else {
-                std::println("Cannot remove from an empty stack");
-            }
-        };
-        Stack<T>(int stack_size = 100) {
-            if (stack_size <= 0) {
-                std::println("Size of the array to hold must be positive.");
-                std::println("Creating an array of size 100.");
-                max_stack_size = 100;
-            }
-            else {
-                max_stack_size = stack_size;
-            }
-            stack_top = 0;
-            list = new T[max_stack_size];
-        }
-        Stack<T>(const Stack<T>& other) {
-            list = nullptr;
+template <typename T>
+struct Stack : public StackSpec<T> {
+public:
+    const Stack<T>& operator=(const Stack<T>& other) {
+        if (this != &other) {
             copy(other);
         }
-        // Remove all elements from the stack
-        ~Stack() { delete[] list; }
-
-    private:
-        int max_stack_size;
-        int stack_top;
-        T* list;
-
-        void copy(const Stack<T>& other) {
-            delete[] list;
-            max_stack_size = other.max_stack_size;
-            stack_top = other.stack_top;
-
-            list = new T[max_stack_size];
-
-            for (int j = 0; j < stack_top; j++) {
-                list[j] = other.list[j];
-            }
-        };
+        return *this;
     };
+    void initialize() override { stack_top = 0; };
+    bool is_empty() const override { return stack_top == 0; };
+    bool is_full() const override { return stack_top == max_stack_size; };
+    void push(const T& new_item) override {
+        if (!is_full()) {
+            list[stack_top] = new_item;
+            stack_top++;
+        }
+        else {
+            std::println("Cannot add to a full stack.");
+        }
+    };
+    T top() const override {
+        assert(stack_top != 0);
+        return list[stack_top - 1];
+    };
+    void pop() override {
+        if (!is_empty()) {
+            stack_top--;
+        }
+        else {
+            std::println("Cannot remove from an empty stack");
+        }
+    };
+    Stack<T>(int stack_size = 100) {
+        if (stack_size <= 0) {
+            std::println("Size of the array to hold must be positive.");
+            std::println("Creating an array of size 100.");
+            max_stack_size = 100;
+        }
+        else {
+            max_stack_size = stack_size;
+        }
+        stack_top = 0;
+        list = new T[max_stack_size];
+    }
+    Stack<T>(const Stack<T>& other) {
+        list = nullptr;
+        copy(other);
+    }
+    // Remove all elements from the stack
+    ~Stack() { delete[] list; }
+
+private:
+    int max_stack_size;
+    int stack_top;
+    T* list;
+
+    void copy(const Stack<T>& other) {
+        delete[] list;
+        max_stack_size = other.max_stack_size;
+        stack_top = other.stack_top;
+
+        list = new T[max_stack_size];
+
+        for (int j = 0; j < stack_top; j++) {
+            list[j] = other.list[j];
+        }
+    };
+};
+
+namespace stack {
+template <typename T>
+struct Node {
+    T info;
+    Node<T>* link;
+};
+} // namespace stack
+
+template <typename T>
+struct LinkedStack : StackSpec<T> {
+public:
+    const LinkedStack<T>& operator=(const LinkedStack<T>& other);
+    bool is_empty() const override { return stack_top == nullptr; };
+    bool in_full() const override { return false; };
+    void initialize() override {
+        stack::Node<T>* temp;
+        while (stack_top != nullptr) {
+            temp = stack_top;
+            stack_top = stack_top->link;
+            delete temp;
+        }
+    };
+    void push(const T& new_item) override {
+        stack::Node<T>* new_node = new stack::Node<T>;
+        new_node->info = new_item;
+        new_node->link = stack_top;
+        stack_top = new_node;
+    };
+    T top() const override {
+        assert(stack_top != nullptr);
+        return stack_top->info;
+    };
+    void pop() override {
+        stack::Node<T>* temp;
+        if (stack_top != nullptr) {
+            temp = stack_top;
+            stack_top = stack_top->link;
+            delete temp;
+        }
+        else {
+            std::println("Cannot remove from an empty stack.");
+        }
+    };
+    LinkedStack<T>(const LinkedStack<T>& other);
+    LinkedStack<T>() : stack_top(nullptr){};
+    ~LinkedStack();
+
+protected:
+    stack::Node<T>* stack_top;
+    void copy(const LinkedStack<T>& other)
+        //{}
+        ;
+};
+
 } // namespace refalgo
