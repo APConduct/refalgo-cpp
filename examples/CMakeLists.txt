@@ -11,3 +11,10 @@ target_include_directories(stack_examples PRIVATE
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/include/modules
 )
+
+add_executable(queue_examples queue_examples.cpp)
+target_link_libraries(queue_examples PRIVATE refalgo)
+target_include_directories(queue_examples PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/include/modules
+)

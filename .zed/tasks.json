@@ -10,7 +10,19 @@
     "command": "./debug.sh && cmake-build-debug/examples/list_examples"
   },
   {
+    "label": "run stack example",
+    "command": "cmake-build-debug/examples/stack_examples"
+  },
+  {
     "label": "build and run stack example",
     "command": "./debug.sh && cmake-build-debug/examples/stack_examples"
+  },
+  {
+    "label": "run queue example",
+    "command": "cmake-build-debug/examples/queue_examples"
+  },
+  {
+    "label": "build and run queue example",
+    "command": "./debug.sh && cmake-build-debug/examples/queue_examples"
   }
 ]
