@@ -20,6 +20,7 @@ public:
 
 template <typename T>
 struct Queue : public QueueSpec<T> {
+public:
     Queue<T>& operator=(const Queue<T>& other) {
         if (this != &other) {
             delete[] list;
@@ -34,21 +35,26 @@ struct Queue : public QueueSpec<T> {
         }
         return *this;
     };
+
     bool is_empty() const override { return count == 0; };
     bool is_full() const override { return count == max_size; };
+
     void initialize() override {
         queue_front = 0;
         queue_rear = max_size - 1;
         count = 0;
     };
+
     T front() const override {
         assert(!is_empty());
         return list[queue_front];
     };
+
     T back() const override {
         assert(!is_empty());
         return list[queue_rear];
     };
+
     void add_queue(const T& new_element) override {
         if (!is_full()) {
             queue_rear = (queue_rear + 1) % max_size;
@@ -59,6 +65,7 @@ struct Queue : public QueueSpec<T> {
             std::println("Cannot add to a full queue.");
         }
     };
+
     void delete_queue() override {
         if (!is_empty()) {
             count--;
@@ -68,6 +75,7 @@ struct Queue : public QueueSpec<T> {
             std::println("Cannot remove from an empty queue.");
         }
     };
+
     Queue<T>(int size = 100) {
         if (size <= 0) {
             std::println("The size of the array to hold the queue must be positive.");
@@ -83,6 +91,7 @@ struct Queue : public QueueSpec<T> {
         count = 0;
         list = new T[max_size];
     };
+
     Queue<T>(const Queue<T>& other) {
         max_size = other.max_size;
         count = other.count;
@@ -93,6 +102,7 @@ struct Queue : public QueueSpec<T> {
             list[i] = other.list[(other.queue_front + i) % other.max_size];
         }
     };
+
     ~Queue() { delete[] list; };
 
 private:
@@ -125,8 +135,10 @@ public:
         }
         return *this;
     };
+
     bool is_empty() const override { return queue_front == nullptr; };
     bool is_full() const override { return false; };
+
     void initialize() override {
         queue::Node<T>* temp;
         while (queue_front != nullptr) {
@@ -136,14 +148,17 @@ public:
         }
         queue_rear = nullptr;
     };
+
     T front() const override {
         assert(queue_front != nullptr);
         return queue_front->info;
     };
+
     T back() const override {
         assert(queue_rear != nullptr);
         return queue_rear->info;
     };
+
     void add_queue(const T& new_element) override {
         queue::Node<T>* new_node = new queue::Node<T>;
         new_node->info = new_element;
@@ -157,6 +172,7 @@ public:
             queue_rear = queue_rear->link;
         }
     };
+
     void delete_queue() override {
         queue::Node<T>* temp;
         if (!is_empty()) {
@@ -171,7 +187,9 @@ public:
             std::println("Cannot remove from an empty queue.");
         }
     };
+
     LinkedQueue() : queue_front(nullptr), queue_rear(nullptr) {}
+
     LinkedQueue(const LinkedQueue<T>& other) : queue_front(nullptr), queue_rear(nullptr) {
         queue::Node<T>* current = other.queue_front;
         while (current != nullptr) {
@@ -179,6 +197,7 @@ public:
             current = current->link;
         }
     }
+
     ~LinkedQueue() {
         queue::Node<T>* temp;
         while (queue_front != nullptr) {

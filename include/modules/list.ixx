@@ -39,10 +39,12 @@ public:
     LinkedListIterator() : current(nullptr) {};
     LinkedListIterator(list::Node<T>* ptr) : current(ptr) {};
     T& operator*() { return current->info; };
+
     LinkedListIterator<T> operator++() {
         current = current->link;
         return *this;
     };
+
     bool operator==(const LinkedListIterator<T>& rhs) const { return current == rhs.current; };
     bool operator!=(const LinkedListIterator<T>& rhs) const { return current != rhs.current; };
 };
@@ -56,8 +58,10 @@ public:
         }
         return *this;
     };
+
     void initialize() { destroy_list(); };
     bool is_empty() const { return first == nullptr; };
+
     void print() const {
         list::Node<T>* current = first;
         while (current != nullptr) {
@@ -65,17 +69,21 @@ public:
             current = current->link;
         };
     };
+
     void reverse_print(list::Node<T>* current) const {
         if (current != nullptr) {
             reverse_print(current->link);
             std::print("{} ", current->info);
         }
     }
+
     void print_list_reverse() const {
         reverse_print(this->first);
         std::println();
     }
+
     int length() const { return count; };
+
     void destroy_list() {
         list::Node<T>* temp;
         while (first != nullptr) {
@@ -86,22 +94,25 @@ public:
         last = nullptr;
         count = 0;
     };
+
     T front() const {
         assert(first != nullptr);
         return first->info;
     };
+
     T back() const {
         assert(last != nullptr);
         return last->info;
     };
+
     virtual bool search(const T& search_item) const = 0;
     virtual void insert_first(const T& new_item) = 0;
     virtual void insert_last(const T& new_item) = 0;
     virtual void delete_node(const T& delete_item) = 0;
     LinkedListIterator<T> begin() const { return LinkedListIterator<T>(first); };
     LinkedListIterator<T> end() const { return LinkedListIterator<T>(nullptr); };
-    LinkedList() : first(nullptr), last(nullptr), count(0) {};
-    LinkedList(const LinkedList<T>& other_list) : first(nullptr) { copy_list(other_list); };
+    LinkedList() : count(0), first(nullptr), last(nullptr) {};
+    LinkedList(const LinkedList<T>& other_list) : count(0), first(nullptr), last(nullptr) { copy_list(other_list); };
     ~LinkedList() { destroy_list(); };
 
     void rotate() {
@@ -171,6 +182,7 @@ struct UnorderedLinkedList : public LinkedList<T> {
         }
         return false;
     };
+
     void insert_first(const T& new_item) override {
         list::Node<T>* new_node = new list::Node<T>;
         new_node->info = new_item;
@@ -183,6 +195,7 @@ struct UnorderedLinkedList : public LinkedList<T> {
             this->last = new_node;
         }
     };
+
     void insert_last(const T& new_item) override {
         list::Node<T>* new_node = new list::Node<T>;
         new_node->info = new_item;
@@ -198,6 +211,7 @@ struct UnorderedLinkedList : public LinkedList<T> {
         }
         this->count++;
     };
+
     void delete_node(const T& delete_item) override {
         list::Node<T>*current, *trail_current;
         bool found;
@@ -266,6 +280,7 @@ public:
         }
         return found;
     };
+
     void insert(const T& new_item) {
         list::Node<T>*current, *trail_current = nullptr, *new_node = new list::Node<T>;
         bool found;
@@ -306,8 +321,10 @@ public:
             }
         }
     };
+
     void insert_first(const T& new_item) override { insert(new_item); };
     void insert_last(const T& new_item) override { insert(new_item); };
+
     void delete_node(const T& delete_item) override {
         list::Node<T>*current, *trail_current = nullptr;
         bool found;
@@ -369,9 +386,10 @@ struct Node {
 template <typename T>
 struct DoublyLinkedList {
 public:
-    /*const*/ DoublyLinkedList<T>& operator=(const DoublyLinkedList<T>& other);
+    DoublyLinkedList<T>& operator=(const DoublyLinkedList<T>& other);
     void initialize() { destroy(); };
     bool is_empty() const { return first == nullptr; };
+
     void destroy() {
         duo::Node<T>* temp;
         while (this->first != nullptr) {
@@ -382,6 +400,7 @@ public:
         this->last = nullptr;
         this->count = 0;
     };
+
     void print() const {
         duo::Node<T>* current;
         current = first;
@@ -389,21 +408,26 @@ public:
             std::print("{} ", current->next);
         }
     };
+
     void reverse_print() const {
         duo::Node<T>* current = last;
         while (current != nullptr) {
             std::print("{} ", current->info);
         }
     };
+
     int length() const { return count; };
+
     T front() const {
         assert(first != nullptr);
         return first->info;
     };
+
     T back() const {
         assert(last != nullptr);
         return last->info;
     };
+
     bool search(const T& search_item) const {
         bool found = false;
         duo::Node<T>* current = first;
@@ -420,6 +444,7 @@ public:
         }
         return found;
     };
+
     void insert(const T& insert_item) {
         duo::Node<T>*current, *trail_current, *new_node = new duo::Node<T>;
         bool found;
@@ -465,6 +490,7 @@ public:
             }
         }
     };
+
     void delete_node(const T& delete_item) {
         duo::Node<T>*current, *trail_current;
         bool found;
@@ -515,6 +541,7 @@ public:
             }
         }
     }
+
     DoublyLinkedList() : last(nullptr), first(nullptr), count(0) {};
     DoublyLinkedList(const DoublyLinkedList& other) : first(nullptr), last(nullptr) { copy_list(other); };
     ~DoublyLinkedList() { destroy(); };

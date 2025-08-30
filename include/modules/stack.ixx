@@ -30,9 +30,11 @@ public:
         }
         return *this;
     };
+
     void initialize() override { stack_top = 0; };
     bool is_empty() const override { return stack_top == 0; };
     bool is_full() const override { return stack_top == max_stack_size; };
+
     void push(const T& new_item) override {
         if (!is_full()) {
             list[stack_top] = new_item;
@@ -42,10 +44,12 @@ public:
             std::println("Cannot add to a full stack.");
         }
     };
+
     T top() const override {
         assert(stack_top != 0);
         return list[stack_top - 1];
     };
+
     void pop() override {
         if (!is_empty()) {
             stack_top--;
@@ -54,6 +58,7 @@ public:
             std::println("Cannot remove from an empty stack");
         }
     };
+
     Stack<T>(int stack_size = 100) {
         if (stack_size <= 0) {
             std::println("Size of the array to hold must be positive.");
@@ -66,11 +71,12 @@ public:
         stack_top = 0;
         list = new T[max_stack_size];
     }
+
     Stack<T>(const Stack<T>& other) {
         list = nullptr;
         copy(other);
     }
-    // Remove all elements from the stack
+
     ~Stack() { delete[] list; }
 
 private:
@@ -110,8 +116,10 @@ public:
         }
         return *this;
     };
+
     bool is_empty() const override { return stack_top == nullptr; };
     bool is_full() const override { return false; };
+
     void initialize() override {
         stack::Node<T>* temp;
         while (stack_top != nullptr) {
@@ -120,16 +128,19 @@ public:
             delete temp;
         }
     };
+
     void push(const T& new_item) override {
         stack::Node<T>* new_node = new stack::Node<T>;
         new_node->info = new_item;
         new_node->link = stack_top;
         stack_top = new_node;
     };
+
     T top() const override {
         assert(stack_top != nullptr);
         return stack_top->info;
     };
+
     void pop() override {
         stack::Node<T>* temp;
         if (stack_top != nullptr) {
@@ -141,12 +152,14 @@ public:
             std::println("Cannot remove from an empty stack.");
         }
     };
+
     Stack<T>(const Stack<T>& other) : stack_top(nullptr) { copy(other); };
     Stack<T>() : stack_top(nullptr){};
     ~Stack() { initialize(); };
 
 protected:
     stack::Node<T>* stack_top;
+
     void copy(const Stack<T>& other) {
         stack::Node<T>*new_node, *current, *last;
         if (stack_top != nullptr) {

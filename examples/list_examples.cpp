@@ -40,6 +40,5 @@ int main() {
         std::print("{} ", *it);
     }
     std::println();
-
     return 0;
 }
