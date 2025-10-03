@@ -21,7 +21,7 @@ cmake \
 && \
 ninja -C ./cmake-build-debug \
 && \
-ln -sf ./cmake-build-debug/compile_commands.json
+ln -sf ./cmake-build-debug/compile_commands.json . \
 # Loop through examples
 # for example in "${EXAMPLES[@]}"; do
 #     ./cmake-build-debug/examples/"$example"
